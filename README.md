@@ -137,6 +137,8 @@ On dig (il a fallu installer le package "bind-utils"):
 # 1. Exploration des ports locaux
 
 On utilise le ss pour voir les ports TCP que la machine virtuelle écoute
+
+
 ss -4 (Pour voir que les ports IPv4)
 ``` 
 [root@localhost ~]# ss -4
@@ -146,6 +148,8 @@ tcp    ESTAB      0      64        192.168.127.10:ssh                      192.1
 
 
 Pour avoir les options TCP et LISTENING on rajoute (trouvé grâce à MAN)
+
+
 ss -4 -t -l
 ```
 [root@localhost ~]# ss -4 -t -l
