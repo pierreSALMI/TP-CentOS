@@ -43,3 +43,16 @@ PING 192.168.127.1 (192.168.127.1) 56(84) bytes of data.
 4 packets transmitted, 4 received, 0% packet loss, time 3311ms
 rtt min/avg/max/mdev = 0.218/0.263/0.281/0.026 ms
 ```
+
+Sur la VM, on affiche nôtre table de routage :
+```
+[root@localhost ~]# ip route
+default via 10.0.2.2 dev enp0s3 proto dhcp metric 100
+10.0.2.0/24 dev enp0s3 proto kernel scope link src 10.0.2.15 metric 100
+192.168.127.0/24 dev enp0s8 proto kernel scope link src 192.168.127.10 metric 101
+```
+
+Sur la première et deuxième ligne, connexion au réseau avec une ip "publique" via 10.0.2.2 et la carte enp0s3 grâce a notre OS principal (ici Windaube)
+
+
+Sur la troisième, c'est l'IP "privée" pour se connecter au réseau local via 192.168.127.10 et la carte enp0s8
