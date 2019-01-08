@@ -56,3 +56,6 @@ Sur la première et deuxième ligne, connexion au réseau avec une ip "publique"
 
 
 Sur la troisième, c'est l'IP "privée" pour se connecter au réseau local via 192.168.127.10 et la carte enp0s8
+
+
+# 5. Faire joujou avec les commandes
