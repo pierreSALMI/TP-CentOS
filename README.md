@@ -137,20 +137,22 @@ On dig (il a fallu installer le package "bind-utils"):
 # 1. Exploration des ports locaux
 
 On utilise le ss pour voir les ports TCP que la machine virtuelle écoute
-    # ss -4 (Pour voir que les ports IPv4)
-    ``` 
-    [root@localhost ~]# ss -4
-    Netid  State      Recv-Q Send-Q     Local Address:Port                      Peer Address:Port
-    tcp    ESTAB      0      64        192.168.127.10:ssh                      192.168.127.1:sunscalar-dns
-    ```
+ss -4 (Pour voir que les ports IPv4)
+``` 
+[root@localhost ~]# ss -4
+Netid  State      Recv-Q Send-Q     Local Address:Port                      Peer Address:Port
+tcp    ESTAB      0      64        192.168.127.10:ssh                      192.168.127.1:sunscalar-dns
+```
+
+
 Pour avoir les options TCP et LISTENING on rajoute (trouvé grâce à MAN)
-    # ss -4 -t -l
-    ```
-    [root@localhost ~]# ss -4 -t -l
-    State      Recv-Q Send-Q        Local Address:Port                         Peer Address:Port
-    LISTEN     0      128                       *:ssh                                     *:*
-    LISTEN     0      100               127.0.0.1:smtp                                    *:*
-    ```
+ss -4 -t -l
+```
+[root@localhost ~]# ss -4 -t -l
+State      Recv-Q Send-Q        Local Address:Port                         Peer Address:Port
+LISTEN     0      128                       *:ssh                                     *:*
+LISTEN     0      100               127.0.0.1:smtp                                    *:*
+```
 
 
 Pour voir les ports utilisés on rajoute -n et pour connaitre l'application qui écoute sur ce port -p
