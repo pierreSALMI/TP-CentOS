@@ -1,3 +1,5 @@
+# I - Création et utilisation simples d'une VM CentOS
+Le tp a été fait jusqu'à la partie 4
 # 4. Configuration réseau d'une machine CentOS
 * A : On utilise une commande sur la VM pour prouver que l'on a internet :
 ```[root@localhost ~]# curl google.com
