@@ -129,22 +129,22 @@ Sauvegarde en : «index.html»
 ```
 
 On dig (il a fallu installer le package "bind-utils"):
-    * Ynov.com : 217.70.184.38
-    * Google.com : 216.58.208.238
+    # Ynov.com : 217.70.184.38
+    # Google.com : 216.58.208.238
 
 # II. Notion de ports et SSH
 
 # 1. Exploration des ports locaux
 
 On utilise le ss pour voir les ports TCP que la machine virtuelle écoute
-    * ss -4 (Pour voir que les ports IPv4)
+    # ss -4 (Pour voir que les ports IPv4)
     ``` 
     [root@localhost ~]# ss -4
     Netid  State      Recv-Q Send-Q     Local Address:Port                      Peer Address:Port
     tcp    ESTAB      0      64        192.168.127.10:ssh                      192.168.127.1:sunscalar-dns
     ```
 Pour avoir les options TCP et LISTENING on rajoute (trouvé grâce à MAN)
-    * ss -4 -t -l
+    # ss -4 -t -l
     ```
     [root@localhost ~]# ss -4 -t -l
     State      Recv-Q Send-Q        Local Address:Port                         Peer Address:Port
