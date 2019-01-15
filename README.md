@@ -272,6 +272,12 @@ PC1 : réseau 1 : 192.168.101.0/24
 VM1 (sur PC1) : 192.168.101.10
 
 
+PC2 : réseau 2 : 192.168.102.0/24
+
+
+VM2 (sur PC2) : 192.168.102.10
+
+
 # Check 
 
 On check PC1 vers VM1 :
@@ -308,6 +314,79 @@ PING 192.168.101.1 (192.168.101.1) 56(84) bytes of data.
 --- 192.168.101.1 ping statistics ---
 5 packets transmitted, 5 received, 0% packet loss, time 4013ms
 rtt min/avg/max/mdev = 0.224/0.274/0.293/0.030 ms
+```
+
+PC2 vers VM2 :
+
+```
+C:\Users\pierr>ping 192.168.102.10
+
+Envoi d’une requête 'Ping'  192.168.102.10 avec 32 octets de données :
+Réponse de 192.168.102.10 : octets=32 temps<1ms TTL=64
+Réponse de 192.168.102.10 : octets=32 temps<1ms TTL=64
+Réponse de 192.168.102.10 : octets=32 temps<1ms TTL=64
+Réponse de 192.168.102.10 : octets=32 temps<1ms TTL=64
+
+Statistiques Ping pour 192.168.102.10:
+    Paquets : envoyés = 4, reçus = 4, perdus = 0 (perte 0%),
+Durée approximative des boucles en millisecondes :
+    Minimum = 0ms, Maximum = 0ms, Moyenne = 0ms
+```
+
+VM2 vers PC2 :
+
+```
+[admin@localhost ~]$ ping 192.168.102.1
+PING 192.168.102.1 (192.168.102.1) 56(84) bytes of data.
+64 bytes from 192.168.102.1: icmp_seq=1 ttl=128 time=0.306 ms
+64 bytes from 192.168.102.1: icmp_seq=2 ttl=128 time=0.579 ms
+64 bytes from 192.168.102.1: icmp_seq=3 ttl=128 time=0.278 ms
+64 bytes from 192.168.102.1: icmp_seq=4 ttl=128 time=0.562 ms
+^C
+--- 192.168.102.1 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3001ms
+rtt min/avg/max/mdev = 0.278/0.431/0.579/0.140 ms
+```
+
+
+PC1 vers PC2 :
+
+
+```
+C:\Users\Ju'>ping 192.168.112.2
+
+Envoi d’une requête 'Ping'  192.168.112.2 avec 32 octets de données :
+Réponse de 192.168.112.2 : octets=32 temps=2 ms TTL=128
+Réponse de 192.168.112.2 : octets=32 temps=1 ms TTL=128
+Réponse de 192.168.112.2 : octets=32 temps=1 ms TTL=128
+Réponse de 192.168.112.2 : octets=32 temps=1 ms TTL=128
+
+Statistiques Ping pour 192.168.112.2:
+    Paquets : envoyés = 4, reçus = 4, perdus = 0 (perte 0%),
+Durée approximative des boucles en millisecondes :
+    Minimum = 1ms, Maximum = 2ms, Moyenne = 1ms
+
+C:\Users\Ju'>
+```
+
+
+PC2 vers PC1 :
+
+
+```
+C:\Users\pierr>ping 192.168.112.1
+
+Envoi d’une requête 'Ping'  192.168.112.1 avec 32 octets de données :
+Réponse de 192.168.112.1 : octets=32 temps=1 ms TTL=64
+Réponse de 192.168.112.1 : octets=32 temps=2 ms TTL=64
+Réponse de 192.168.112.1 : octets=32 temps=2 ms TTL=64
+Réponse de 192.168.112.1 : octets=32 temps=1 ms TTL=64
+
+Statistiques Ping pour 192.168.112.1:
+    Paquets : envoyés = 4, reçus = 4, perdus = 0 (perte 0%),
+Durée approximative des boucles en millisecondes :
+    Minimum = 1ms, Maximum = 2ms, Moyenne = 1ms
+
 ```
 
 
