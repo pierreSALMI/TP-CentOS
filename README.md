@@ -246,13 +246,33 @@ tcp    ESTAB      0      0      192.168.127.10:apc-5454             192.168.127.
 
 # III. Routage statique
 
+L'objectif de cette partie est de transformer nos PC en routeurs et de permettre au deuxième PC de se connecter à la machine du premier, et inversement.
 
+
+```
+Internet            Internet
+    |                    |
+  WiFi                  WiFi
+    |                    |
+   PC 1  ---Ethernet--- PC 2
+    |                    |
+Host-only 1          Host-only 2
+    |                    |
+   VM 1                 VM 2
+```
+
+
+# 1. Préparation des hôtes
 Ok, alors la le principe c'est de modifier l'adresse de la carte HOST ONLY et l'adresse de la carte ETHERNET.
 Nos cartes Ethernet sont dans le réseau : 192.168.112.0/30
 
 PC1 : réseau 1 : 192.168.101.0/24
+
+
 VM1 (sur PC1) : 192.168.101.10
 
+
+# Check 
 
 On check PC1 vers VM1 :
 
@@ -290,3 +310,9 @@ PING 192.168.101.1 (192.168.101.1) 56(84) bytes of data.
 rtt min/avg/max/mdev = 0.224/0.274/0.293/0.030 ms
 ```
 
+
+# Activation du routage sur les PCs
+
+Vu que nous sommes sur Windows, il a fallut modifier la clé registre `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\ Services\Tcpip\Parameters\IPEnableRouter` en passant sa valeur de **0** à **1**
+
+Ensuite, on a démarré le service après un reboot.
