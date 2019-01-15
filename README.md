@@ -245,3 +245,48 @@ tcp    ESTAB      0      0      192.168.127.10:apc-5454             192.168.127.
 
 
 # III. Routage statique
+
+
+Ok, alors la le principe c'est de modifier l'adresse de la carte HOST ONLY et l'adresse de la carte ETHERNET.
+Nos cartes Ethernet sont dans le réseau : 192.168.112.0/30
+
+PC1 : réseau 1 : 192.168.101.0/24
+VM1 (sur PC1) : 192.168.101.10
+
+
+On check PC1 vers VM1 :
+
+
+```
+C:\Users\Ju'>ping 192.168.101.10
+
+Envoi d’une requête 'Ping'  192.168.101.10 avec 32 octets de données :
+Réponse de 192.168.101.10 : octets=32 temps<1ms TTL=64
+Réponse de 192.168.101.10 : octets=32 temps<1ms TTL=64
+Réponse de 192.168.101.10 : octets=32 temps<1ms TTL=64
+Réponse de 192.168.101.10 : octets=32 temps<1ms TTL=64
+
+Statistiques Ping pour 192.168.101.10:
+    Paquets : envoyés = 4, reçus = 4, perdus = 0 (perte 0%),
+Durée approximative des boucles en millisecondes :
+    Minimum = 0ms, Maximum = 0ms, Moyenne = 0ms
+```
+
+
+VM1 vers PC1 : 
+
+
+```
+[root@localhost ~]# ping 192.168.101.1
+PING 192.168.101.1 (192.168.101.1) 56(84) bytes of data.
+64 bytes from 192.168.101.1: icmp_seq=1 ttl=64 time=0.224 ms
+64 bytes from 192.168.101.1: icmp_seq=2 ttl=64 time=0.274 ms
+64 bytes from 192.168.101.1: icmp_seq=3 ttl=64 time=0.291 ms
+64 bytes from 192.168.101.1: icmp_seq=4 ttl=64 time=0.293 ms
+64 bytes from 192.168.101.1: icmp_seq=5 ttl=64 time=0.290 ms
+^C
+--- 192.168.101.1 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 4013ms
+rtt min/avg/max/mdev = 0.224/0.274/0.293/0.030 ms
+```
+
