@@ -395,3 +395,126 @@ Durée approximative des boucles en millisecondes :
 Vu que nous sommes sur Windows, il a fallut modifier la clé registre `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\ Services\Tcpip\Parameters\IPEnableRouter` en passant sa valeur de **0** à **1**
 
 Ensuite, on a démarré le service après un reboot.
+
+# 2. Configuration du routage
+
+Bilan des adresses IP :
+
+* PC1 :
+    * Carte Ethernet : 192.168.112.1
+    * Carte Host Only : 192.168.101.1
+* VM1 :
+    * Carte Host Only : 192.168.101.10
+* PC2 :
+    * Carte Ethernet : 192.168.112.2
+    * Carte Host Only : 192.168.102.1
+* VM2 :
+    * Carte Host Only : 192.168.102.10
+
+
+# Sur le PC1 :
+
+On doit dire au PC1 comment accéder au réseau 2 :
+
+`route add 192.168.102.0/24 mask 255.255.255.0 192.168.112.2`
+
+Signifiant : " On ajoute une route pour aller sur l'adresse 192.168.102.0 en passant par le chemin 192.168.112.2 "
+
+# Sur le PC2 :
+
+On fait la chose inverse
+
+
+# Sur la VM1
+
+Pour lui dire d'accéder au réseau 12 en passant par 1:
+
+`ip route add 192.168.112.0/24 via 192.168.101.1 dev enp0s8`
+
+VM1 Ping l'adresse de PC2 dans le réseau 12 :
+
+```
+[root@localhost ~]# ping 192.168.112.1
+PING 192.168.112.1 (192.168.112.1) 56(84) bytes of data.
+64 bytes from 192.168.112.1: icmp_seq=1 ttl=63 time=0.781 ms
+64 bytes from 192.168.112.1: icmp_seq=2 ttl=63 time=0.336 ms
+64 bytes from 192.168.112.1: icmp_seq=3 ttl=63 time=0.278 ms
+64 bytes from 192.168.112.1: icmp_seq=4 ttl=63 time=0.278 ms
+64 bytes from 192.168.112.1: icmp_seq=5 ttl=63 time=0.271 ms
+^C
+--- 192.168.112.1 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 4000ms
+rtt min/avg/max/mdev = 0.271/0.388/0.781/0.199 ms
+```
+
+VM1 Ping l'adresse de PC2 dans le réseau 2 :
+
+```
+[root@localhost ~]# ping 192.168.102.1
+PING 192.168.102.1 (192.168.102.1) 56(84) bytes of data.
+64 bytes from 192.168.102.1: icmp_seq=1 ttl=126 time=2.12 ms
+64 bytes from 192.168.102.1: icmp_seq=2 ttl=126 time=1.99 ms
+64 bytes from 192.168.102.1: icmp_seq=3 ttl=126 time=1.99 ms
+64 bytes from 192.168.102.1: icmp_seq=4 ttl=126 time=1.82 ms
+64 bytes from 192.168.102.1: icmp_seq=5 ttl=126 time=1.83 ms
+^C
+--- 192.168.102.1 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 4226ms
+rtt min/avg/max/mdev = 1.829/1.955/2.126/0.112 ms
+```
+
+# Sur la VM2
+
+Pareil que la VM1
+
+# 3. Configuration des noms de domaine :
+
+VM1 qui ping PC2 et VM2 :
+```
+[root@localhost etc]# ping pc2.tp3.b1
+PING pc2 (192.168.112.2) 56(84) bytes of data.
+64 bytes from pc2 (192.168.112.2): icmp_seq=1 ttl=127 time=1.81 ms
+64 bytes from pc2 (192.168.112.2): icmp_seq=2 ttl=127 time=1.60 ms
+64 bytes from pc2 (192.168.112.2): icmp_seq=3 ttl=127 time=1.49 ms
+64 bytes from pc2 (192.168.112.2): icmp_seq=4 ttl=127 time=1.81 ms
+^C
+--- pc2 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 4009ms
+rtt min/avg/max/mdev = 1.492/1.655/1.817/0.137 ms
+[root@localhost etc]# ping vm2.tp3.b1
+PING vm2 (192.168.102.10) 56(84) bytes of data.
+64 bytes from vm2 (192.168.102.10): icmp_seq=1 ttl=62 time=2.59 ms
+64 bytes from vm2 (192.168.102.10): icmp_seq=2 ttl=62 time=2.36 ms
+64 bytes from vm2 (192.168.102.10): icmp_seq=3 ttl=62 time=2.25 ms
+64 bytes from vm2 (192.168.102.10): icmp_seq=4 ttl=62 time=2.65 ms
+^C
+--- vm2 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3006ms
+rtt min/avg/max/mdev = 2.253/2.468/2.658/0.164 ms
+```
+
+La configuration du fichier hosts sur PC1 :
+
+```
+#
+127.0.0.1 localhost pc1 pc1.tp3.b1
+::1 localhost
+192.168.112.2 pc2 pc2.tp3.b1
+192.168.102.10 vm2 vm2.tp3.b1
+```
+
+Le but ultime de netcat entre VM1 et VM2 :
+
+```
+[root@localhost etc]# nc -l 5454
+Bonjour, voii^Hci^H^H^H^H^H^H^[[3~^[[3~^H^H^H^H^H^H^H
+^H^H^H^H^H^H^H^Hslt
+Voici slt
+le test du netcat termin2
+````
+
+(Sachant que la VM2 a utilisé `nc vm1 5454`)
+
+La VM1 peut désormais ping tous les FQDN (y compris vm1.tp3.b1)
+
+De même pour la VM2 (pouvant ping vm2.tp3.b1)
