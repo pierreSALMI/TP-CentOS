@@ -431,6 +431,10 @@ Pour lui dire d'accéder au réseau 12 en passant par 1:
 
 `ip route add 192.168.112.0/24 via 192.168.101.1 dev enp0s8`
 
+Pour lui dire d'accéder au réseau 2 :
+
+`ip route add 192.168.102.0/24 via 192.168.101.1 dev enp0s8`
+
 VM1 Ping l'adresse de PC2 dans le réseau 12 :
 
 ```
